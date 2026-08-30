@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Primary SEO -->
+<title>Daikonbun — where your AI agents work under review</title>
+<meta name="description" content="Daikonbun is a self-hosted workspace where your AI coding agents work under review. Your own agent drives the board over MCP; every task is independently reviewed and permanently recorded before it merges, instead of trusting raw agent PRs.">
+<link rel="canonical" href="https://daikonbun.com/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0A0B0D">
+<meta name="author" content="Daikonbun">
+
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Daikonbun">
+<meta property="og:title" content="Daikonbun — where your AI agents work under review">
+<meta property="og:description" content="A self-hosted workspace where your AI coding agents work under review. Your own agent drives the board over MCP; every task is independently reviewed and recorded before it merges, instead of raw agent PRs. For teams running agents on shared code.">
+<meta property="og:url" content="https://daikonbun.com/">
+<meta property="og:image" content="https://daikonbun.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Daikonbun — where your AI agents work under review">
+<meta name="twitter:description" content="Your own agent drives a self-hosted board over MCP; every task is reviewed and recorded before it merges. For teams running agents on shared code.">
+<meta name="twitter:image" content="https://daikonbun.com/og.png">
+
+<!-- Icons -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A5%AC%3C/text%3E%3C/svg%3E">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<!-- AEO / structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://daikonbun.com/#org",
+      "name": "Daikonbun",
+      "url": "https://daikonbun.com/",
+      "description": "Maker of Daikonbun, a self-hosted workspace where your AI coding agents work under review over MCP."
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://daikonbun.com/#website",
+      "url": "https://daikonbun.com/",
+      "name": "Daikonbun",
+      "publisher": { "@id": "https://daikonbun.com/#org" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Daikonbun",
+      "applicationCategory": "DeveloperApplication",
+      "applicationSubCategory": "Project Management / AI Agent Orchestration",
+      "operatingSystem": "Docker, Linux, macOS, Windows (self-hosted)",
+      "url": "https://daikonbun.com/",
+      "description": "Daikonbun is a self-hosted workspace where AI coding agents work under review. It speaks MCP, so the coding agent you already run connects and drives cards through refine, plan, build, and verify, and every task passes an independent, server-enforced review gate before it merges. Every agent signs its work onto the card, so the card is a complete, auditable record of which agent did what and who approved it. Daikonbun holds no model credentials and makes no model calls.",
+      "featureList": [
+        "Self-hosted with one docker compose up",
+        "AI-agent pipeline: refine, plan, review, build, test",
+        "Human-gated by default, full autonomy opt-in",
+        "Provider-agnostic model routing (bring your own LLM)",
+        "Multi-member workspaces with role-based access",
+        "The card is an auditable, signed work record"
+      ],
+      "offers": [
+        { "@type": "Offer", "name": "Free — noncommercial self-host", "price": "0", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Commercial — per seat", "price": "12", "priceCurrency": "USD", "description": "Per seat per month, billed annually; buy the seats you need. Unlocks commercial use, multi-member, and audit export." }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Daikonbun?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Daikonbun is a self-hosted workspace where your AI coding agents work under review. Your own agent drives the board over MCP, refining, planning, and building, and every task passes an independent, server-enforced review gate before it merges, with a signed record of exactly how it was done. Daikonbun holds no model keys; your agent does the work on your own subscription." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why not just my agent plus GitHub PR review?",
+          "acceptedAnswer": { "@type": "Answer", "text": "If a human reads every pull request, GitHub is enough. Daikonbun is for when your agents open more changes than anyone actually reviews. It makes review structural and agent-aware: an independent gate on every task the server won't let a card skip, and a record of which agent did what, not just that a human approved a PR." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Daikonbun really self-hosted?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. It runs on your own machine with one docker compose up. Your data, your API keys, your infrastructure. A hosted option may come later, but self-host is the primary product." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which AI models does Daikonbun use?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Daikonbun is provider-agnostic. Each agent role maps to a model through a routing table you control, so you bring your own LLM and route stronger models to planning and review, cheaper ones to mechanical steps." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data private?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Because Daikonbun is self-hosted, your tasks, credentials, and work records stay on your own machine. Credentials are encrypted at rest and never returned in plaintext by any API." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Daikonbun available yet, and is it free?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Daikonbun is in beta, working software, pre-1.0. Join early access to self-host it as access opens up. It is free for noncommercial self-host, with a per-seat commercial license for paid use." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<style>
+:root{
+  --bg:#0A0B0D; --bg-2:#0D0F13; --surface:#101318; --surface-2:#161B22;
+  --text:#E9ECEF; --heading:#F4F6F8; --muted:#9AA4AE; --faint:#6B747E;
+  --border:#20262F; --border-2:#2A323C;
+  --brand:#34c98a; --brand-dim:#1f8f5f; --brand-glow:rgba(52,201,138,.16);
+  --radish:#dba43a; --radish-2:#e8b95a; --radish-glow:rgba(219,164,58,.18);
+  --maxw:1120px; --gap:clamp(1rem,3vw,2rem);
+  --f-display:"Space Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --f-body:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+section[id],[id^="launch"]{scroll-margin-top:4.5rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:var(--f-body); font-size:17px; line-height:1.65;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  background-image:radial-gradient(60rem 40rem at 72% -8%,rgba(52,201,138,.08),transparent 60%),radial-gradient(48rem 34rem at 8% 6%,rgba(219,164,58,.06),transparent 55%);
+  background-attachment:fixed;
+}
+.wrap{max-width:var(--maxw); margin-inline:auto; padding-inline:clamp(1.1rem,4vw,2rem)}
+h1,h2,h3{font-family:var(--f-display); color:var(--heading); text-wrap:balance; margin:0; line-height:1.05; letter-spacing:-.02em}
+p{margin:0}
+a{color:var(--brand); text-decoration:none}
+a:hover{color:var(--brand)}
+:focus-visible{outline:2px solid var(--brand); outline-offset:3px; border-radius:4px}
+
+.mono{font-family:var(--f-mono)}
+.eyebrow{font-family:var(--f-mono); font-size:.74rem; letter-spacing:.22em; text-transform:uppercase; color:var(--brand); font-weight:500}
+
+/* nav */
+.nav{position:sticky; top:0; z-index:50; backdrop-filter:blur(12px); background:color-mix(in srgb,var(--bg) 82%,transparent); border-bottom:1px solid var(--border)}
+.nav .wrap{display:flex; align-items:center; justify-content:space-between; height:62px}
+.brand{display:flex; align-items:center; gap:.6rem; font-family:var(--f-display); font-weight:800; font-size:1.18rem; color:var(--heading); letter-spacing:-.02em}
+.brand .dot{width:.6rem; height:.6rem; border-radius:50%; background:var(--brand); box-shadow:0 0 0 4px var(--brand-glow)}
+.nav a.nlink{color:var(--muted); font-size:.92rem; margin-left:1.4rem}
+.nav a.nlink:hover{color:var(--text)}
+.nav-cta{display:inline-flex; align-items:center; gap:.4rem; background:var(--radish); color:#180a0e; font-weight:600; font-size:.9rem; padding:.5rem .9rem; border-radius:8px; margin-left:1.4rem}
+.nav-cta:hover{background:var(--radish-2); color:#180a0e}
+@media(max-width:720px){.nav a.nlink{display:none}}
+
+/* hero */
+.hero{padding:clamp(3.5rem,9vw,7rem) 0 clamp(2.5rem,6vw,4.5rem)}
+.hero-eyebrow{display:inline-flex; align-items:center; gap:.6rem; margin-bottom:1.6rem}
+.hero-eyebrow .tick{width:6px; height:6px; background:var(--radish); border-radius:1px; animation:blink 1.6s steps(2) infinite}
+@keyframes blink{50%{opacity:.25}}
+@media(prefers-reduced-motion:reduce){.hero-eyebrow .tick{animation:none}}
+.hero h1{font-size:clamp(3rem,9.5vw,6rem); font-weight:800; letter-spacing:-.035em}
+.hero h1 .strike{position:relative; color:var(--muted)}
+.hero h1 .strike::after{content:""; position:absolute; left:-2%; right:-2%; top:52%; height:.09em; background:var(--radish); transform:rotate(-3deg); border-radius:2px}
+.hero h1 .rebirth{color:var(--brand)}
+.hero .lede{max-width:44ch; margin-top:1.6rem; font-size:clamp(1.05rem,2.3vw,1.28rem); color:var(--muted); line-height:1.6}
+.hero .lede b{color:var(--text); font-weight:600}
+
+/* signup */
+.signup{margin-top:2.2rem; max-width:30rem}
+.signup form{display:flex; gap:.5rem; background:var(--surface); border:1px solid var(--border-2); border-radius:12px; padding:.4rem; box-shadow:0 12px 40px -18px rgba(0,0,0,.7)}
+.signup input[type=email]{flex:1; min-width:0; background:transparent; border:0; color:var(--text); font-family:var(--f-body); font-size:1rem; padding:.6rem .7rem}
+.signup input::placeholder{color:var(--faint)}
+.signup input:focus{outline:none}
+.btn{cursor:pointer; border:0; white-space:nowrap; font-family:var(--f-body); font-weight:600; font-size:.98rem; padding:.7rem 1.1rem; border-radius:9px; background:var(--brand); color:#04100e; transition:transform .12s ease,background .2s ease}
+.btn:hover{background:var(--brand);filter:brightness(1.08)}
+.btn:active{transform:translateY(1px)}
+.signup .hint{margin-top:.7rem; font-size:.82rem; color:var(--faint); font-family:var(--f-mono)}
+.signup .msg{margin-top:.7rem; font-size:.9rem; min-height:1.2em}
+.signup .msg.ok{color:var(--brand)}
+.signup .msg.err{color:var(--radish-2)}
+
+/* sections */
+section{padding:clamp(3rem,7vw,5.5rem) 0}
+.sec-head{max-width:56ch; margin-bottom:2.6rem}
+.sec-head h2{font-size:clamp(1.9rem,4.4vw,2.9rem); font-weight:700}
+.sec-head p{margin-top:1rem; color:var(--muted); font-size:1.08rem}
+.rule{border:0; border-top:1px solid var(--border); margin:0}
+
+/* problem statement */
+.thesis{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:16px; overflow:hidden}
+.thesis>div{background:var(--surface); padding:clamp(1.4rem,3vw,2.1rem)}
+.thesis .k{font-family:var(--f-mono); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); margin-bottom:.7rem}
+.thesis .big{font-family:var(--f-display); font-size:1.35rem; font-weight:700; color:var(--heading); line-height:1.2}
+.thesis .sm{margin-top:.7rem; color:var(--muted); font-size:.98rem}
+.thesis .join{grid-column:1/-1; background:var(--bg-2); text-align:center; padding:1.8rem}
+.thesis .join .big{color:var(--brand)}
+@media(max-width:680px){.thesis{grid-template-columns:1fr}.thesis .join{grid-column:auto}}
+
+/* pipeline */
+.pipe{display:flex; gap:.5rem; overflow-x:auto; padding-bottom:.6rem; scrollbar-width:thin}
+.stage{flex:1 0 auto; min-width:132px; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1rem .95rem; position:relative}
+.stage .n{font-family:var(--f-mono); font-size:.7rem; color:var(--faint); letter-spacing:.1em}
+.stage .role{font-family:var(--f-mono); font-size:.72rem; color:var(--brand); margin-top:.5rem}
+.stage h3{font-family:var(--f-display); font-size:1.06rem; font-weight:700; margin-top:.2rem}
+.stage p{margin-top:.35rem; font-size:.84rem; color:var(--muted); line-height:1.45}
+.stage.gate{border-color:var(--radish-glow)}
+.stage.gate .role{color:var(--radish-2)}
+.stage .arrow{position:absolute; right:-.55rem; top:50%; color:var(--faint); font-size:.9rem; z-index:2}
+.stage:last-child .arrow{display:none}
+.conductor{margin-top:1.2rem; font-family:var(--f-mono); font-size:.82rem; color:var(--muted); display:flex; align-items:center; gap:.6rem}
+.conductor b{color:var(--brand); font-weight:600}
+
+/* features */
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(258px,1fr)); gap:1rem}
+.card{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:1.5rem 1.4rem; transition:border-color .2s ease,transform .2s ease}
+.card:hover{border-color:var(--border-2); transform:translateY(-2px)}
+.card .ic{width:34px; height:34px; border-radius:9px; display:grid; place-items:center; background:var(--brand-glow); color:var(--brand); margin-bottom:1rem; font-family:var(--f-mono); font-weight:600}
+.card h3{font-size:1.15rem; font-weight:700}
+.card p{margin-top:.55rem; color:var(--muted); font-size:.96rem}
+
+/* who */
+.who{display:flex; flex-wrap:wrap; gap:.6rem}
+.chip{font-family:var(--f-mono); font-size:.85rem; color:var(--text); background:var(--surface); border:1px solid var(--border-2); border-radius:999px; padding:.5rem 1rem}
+.chip b{color:var(--brand); font-weight:600}
+
+/* pricing */
+.pricing{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:1rem; align-items:stretch}
+.tier{display:flex; flex-direction:column; background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:1.7rem 1.5rem; position:relative}
+.tier.feat{border-color:var(--brand-dim); box-shadow:0 0 0 1px var(--brand-dim),0 24px 60px -34px var(--brand-glow); background:linear-gradient(180deg,color-mix(in srgb,var(--brand-glow) 45%,var(--surface)),var(--surface))}
+.tier .badge{position:absolute; top:-.72rem; left:1.5rem; font-family:var(--f-mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:#04100e; background:var(--brand); padding:.3rem .62rem; border-radius:999px; font-weight:600}
+.tier .cap{font-family:var(--f-mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+.tier .price{margin-top:.85rem; font-family:var(--f-display); color:var(--heading); font-weight:800; font-size:2.25rem; line-height:1; letter-spacing:-.03em; display:flex; align-items:baseline; gap:.42rem; flex-wrap:wrap}
+.tier .price .per{font-family:var(--f-mono); font-size:.78rem; font-weight:500; color:var(--muted); letter-spacing:0}
+.tier .blurb{margin-top:.75rem; color:var(--muted); font-size:.92rem; line-height:1.5}
+.tier ul{list-style:none; padding:0; margin:1.15rem 0 1.5rem; display:flex; flex-direction:column; gap:.55rem}
+.tier li{position:relative; padding-left:1.45rem; color:var(--text); font-size:.91rem; line-height:1.4}
+.tier li::before{content:"✓"; position:absolute; left:0; top:.02em; color:var(--brand); font-weight:700; font-size:.86rem}
+.tier .buy{margin-top:auto; display:inline-flex; justify-content:center; align-items:center; gap:.4rem; font-family:var(--f-body); font-weight:600; font-size:.95rem; padding:.75rem 1rem; border-radius:10px; border:1px solid var(--border-2); background:var(--surface-2); color:var(--heading); transition:transform .12s ease,border-color .2s ease,background .2s ease}
+.tier .buy:hover{border-color:var(--brand-dim); background:var(--bg-2); transform:translateY(-1px)}
+.tier.feat .buy{background:var(--brand); color:#04100e; border-color:var(--brand)}
+.tier.feat .buy:hover{filter:brightness(1.08); background:var(--brand)}
+.price-note{margin-top:1.7rem; font-family:var(--f-mono); font-size:.82rem; color:var(--faint); text-align:center; line-height:1.7}
+.price-note a{color:var(--brand)}
+.pricing-proof{margin-top:1rem; font-size:1rem; color:var(--muted)}
+.pricing-proof a{color:var(--brand); font-weight:600}
+@media(max-width:520px){.tier .price{font-size:2rem}}
+
+/* faq */
+.faq details{border:1px solid var(--border); border-radius:12px; background:var(--surface); margin-bottom:.7rem; overflow:hidden}
+.faq summary{cursor:pointer; list-style:none; padding:1.1rem 1.3rem; font-family:var(--f-display); font-weight:600; font-size:1.08rem; color:var(--heading); display:flex; justify-content:space-between; align-items:center; gap:1rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+"; font-family:var(--f-mono); color:var(--brand); font-size:1.3rem; transition:transform .2s ease}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .a{padding:0 1.3rem 1.2rem; color:var(--muted); font-size:1rem; max-width:66ch}
+
+/* final cta */
+.final{background:linear-gradient(180deg,var(--surface),var(--bg-2)); border:1px solid var(--border-2); border-radius:20px; padding:clamp(2rem,5vw,3.4rem); text-align:center}
+.final h2{font-size:clamp(1.9rem,4.6vw,3rem); font-weight:800}
+.final .tag{font-family:var(--f-mono); color:var(--radish-2); font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; margin-bottom:1rem}
+.final .signup{margin-inline:auto; margin-top:2rem}
+.final .signup form{background:var(--bg)}
+
+/* footer */
+footer{border-top:1px solid var(--border); padding:2.6rem 0; margin-top:2rem}
+footer .row{display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem; align-items:center; color:var(--faint); font-size:.88rem}
+footer .brand{font-size:1rem}
+footer .mono{color:var(--faint)}
+
+.reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1; transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1; transform:none; transition:none}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="dot"></span>Daikonbun</a>
+    <div>
+      <a class="nlink" href="#how">How it works</a>
+      <a class="nlink" href="#why">Why</a>
+      <a class="nlink" href="#pricing">Pricing</a>
+      <a class="nlink" href="#faq">FAQ</a>
+      <a class="nav-cta" href="#launch-final">Get early access</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow hero-eyebrow"><span class="tick"></span>Self-hosted · MCP-native · Beta</span>
+    <h1>Where your AI&nbsp;agents<br>work <span class="rebirth">under&nbsp;review.</span></h1>
+    <p class="lede"><b>Your own coding agent drives a self-hosted board over MCP.</b> Every task it does is independently reviewed and permanently recorded before it merges, instead of trusting raw agent PRs straight into your codebase.</p>
+    <div class="signup" id="launch">
+      <form data-newsletter novalidate>
+        <input type="email" name="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address">
+        <button class="btn" type="submit">Request early access</button>
+      </form>
+      <p class="hint">Early self-host access as the beta opens up. One email, no noise.</p>
+      <p class="msg" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</header>
+
+<hr class="rule">
+
+<section id="thesis">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The problem</span>
+      <h2>Agents ship faster than anyone can review them.</h2>
+      <p>The more work your agents do, the less of it a human actually reads. Raw output flows into the codebase, and later nobody can say what changed or who checked it.</p>
+    </div>
+    <div class="thesis reveal">
+      <div>
+        <div class="k">Bare agents</div>
+        <div class="big">Do the work — then hand you the diff.</div>
+        <div class="sm">Copilot, Cursor, Claude Code. Powerful, but the output lands with no process around it and no record of how it was made.</div>
+      </div>
+      <div>
+        <div class="k">GitHub PR review</div>
+        <div class="big">Enough — until nobody reads every PR.</div>
+        <div class="sm">Fine while a human reviews each change. It breaks the moment agents open more PRs than anyone reads, and it can't tell you which agent did what.</div>
+      </div>
+      <div class="join">
+        <div class="k">Daikonbun</div>
+        <div class="big">Every task reviewed and recorded — structurally.</div>
+        <div class="sm">An independent review gate on every task, one the server won't let a card skip, and a signed record of exactly how the work was done.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="background:var(--bg-2)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">How it works</span>
+      <h2>Every task passes review before it merges.</h2>
+      <p>Your agent plays each role in turn as a card moves through typed stages. At each gate an independent review produces a verdict and a score, and the server won't advance a card past it without one. Approve to continue, or send it back.</p>
+    </div>
+    <div class="pipe reveal">
+      <div class="stage"><div class="n">01 · Intake</div><div class="role">Refiner</div><h3>Refine</h3><p>Turns a rough note into a clear task with acceptance criteria.</p><span class="arrow mono">›</span></div>
+      <div class="stage"><div class="n">02 · Plan</div><div class="role">Planner</div><h3>Plan</h3><p>Writes the implementation plan and decision log.</p><span class="arrow mono">›</span></div>
+      <div class="stage gate"><div class="n">03 · Gate</div><div class="role">Plan Reviewer</div><h3>Review plan</h3><p>Scores the plan. You confirm, or it loops back.</p><span class="arrow mono">›</span></div>
+      <div class="stage"><div class="n">04 · Build</div><div class="role">Builder + Test Author</div><h3>Build</h3><p>Implements the change and writes the tests to hold it.</p><span class="arrow mono">›</span></div>
+      <div class="stage gate"><div class="n">05 · Gate</div><div class="role">Code Reviewer</div><h3>Review code</h3><p>Reviews the diff for correctness and quality.</p><span class="arrow mono">›</span></div>
+      <div class="stage"><div class="n">06 · Test</div><div class="role">Verifier / CI</div><h3>Verify</h3><p>Runs the full suite. Green ships; red loops back.</p><span class="arrow mono">›</span></div>
+      <div class="stage"><div class="n">07 · Done</div><div class="role">—</div><h3>Done</h3><p>Merged, with the whole story on the card.</p></div>
+    </div>
+    <div class="conductor reveal">The <b>Conductor</b> is the agent you already run. Point it at the board and it drives the loop, playing each role, submitting its work for review, and moving the card toward done while you approve at the gates that matter.</div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Why it holds up</span>
+      <h2>Reviewed, recorded, and entirely yours.</h2>
+    </div>
+    <div class="grid">
+      <div class="card reveal"><div class="ic">⌘</div><h3>The card is the source of truth</h3><p>Every plan, review, and test result is signed back onto the card. A resumed session, or a new teammate, can reconstruct exactly what happened.</p></div>
+      <div class="card reveal"><div class="ic">⏻</div><h3>Human-gated by default</h3><p>It pauses at plan and code review. Full autonomy is opt-in, per run. You decide how long the leash is.</p></div>
+      <div class="card reveal"><div class="ic">◎</div><h3>Provider-agnostic</h3><p>Agent roles are defined by function, not vendor. A routing table maps each role to whatever LLM you choose.</p></div>
+      <div class="card reveal"><div class="ic">⬢</div><h3>Self-host first</h3><p>One <span class="mono">docker compose up</span>. Your data, your keys, your machine. Credentials encrypted at rest, never returned in plaintext.</p></div>
+      <div class="card reveal"><div class="ic">↺</div><h3>The gate can't be skipped</h3><p>Review isn't a convention you can click past; the server enforces it. A card can't reach done without its tests passing. No faked completions.</p></div>
+      <div class="card reveal"><div class="ic">▤</div><h3>A board, not a chat log</h3><p>Columns, cards, and a live feed of every agent action. Supervising a fleet of parallel runs is a glance, not a scroll back through chat.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="who" style="background:var(--bg-2)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Who it's for</span>
+      <h2>Teams running agents on shared code.</h2>
+      <p>When more than one person, and more than one agent, touch the same codebase, "who did what, and did anyone check it?" stops being answerable. That's who this is built for. Solo builders self-host free.</p>
+    </div>
+    <div class="who reveal">
+      <span class="chip"><b>›</b> Solo developers</span>
+      <span class="chip"><b>›</b> Indie hackers</span>
+      <span class="chip"><b>›</b> AI-native builders</span>
+      <span class="chip"><b>›</b> Small dev teams &amp; agencies</span>
+      <span class="chip"><b>›</b> Anyone tired of moving cards by hand</span>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Pricing</span>
+      <h2>Free to self-host. A license when you ship for money.</h2>
+      <p>Self-host it for noncommercial use, forever. When it earns, or a team leans on it, a commercial license keeps you square. Buy from anywhere; checkout and worldwide tax are handled for you.</p>
+      <p class="pricing-proof"><a href="https://claude.ai/code/artifact/9a933964-3102-4e67-9a5c-ed9ba82d7ca2" rel="noopener">▸ Watch a real review gate catch a bug</a>. The governance you're paying for, in action. The paid features are free to try for 14 days.</p>
+    </div>
+    <div class="pricing reveal" style="max-width:760px;margin-inline:auto">
+      <div class="tier">
+        <div class="cap">Free</div>
+        <div class="price">$0</div>
+        <div class="blurb">Noncommercial self-host: evaluating, personal projects, anything that isn't making money.</div>
+        <ul>
+          <li>The whole pipeline, self-hosted</li>
+          <li>Bring your own LLM</li>
+          <li>Single member</li>
+          <li>Community support</li>
+        </ul>
+        <!-- FREE: repo is private pre-launch — points to the launch list. Swap href + label to the quickstart once the repo is public. -->
+        <a class="buy" href="#launch-final">Get launch access</a>
+      </div>
+
+      <div class="tier feat">
+        <div class="badge">For commercial use</div>
+        <div class="cap">Commercial</div>
+        <div class="price">$12 <span class="per">/seat/mo</span></div>
+        <div class="blurb">Billed annually. Buy the exact number of seats you need, add more anytime.</div>
+        <ul>
+          <li>Everything in Free</li>
+          <li>Commercial use</li>
+          <li>Multi-member: as many seats as you need</li>
+          <li><b>Audit export</b>: the signed, attributed ledger</li>
+          <li>Priority updates &amp; support</li>
+          <li>Free 14-day trial before you buy</li>
+        </ul>
+        <!-- LEMON SQUEEZY: pre-launch, no per-seat checkout URL yet. When the per-seat (quantity=seats) product exists: set href to its ?embed=1 URL, add class "lemonsqueezy-button", relabel to "Buy seats". -->
+        <a class="buy" href="#launch-final">Get early access</a>
+      </div>
+    </div>
+    <p class="price-note"><b>Audit export</b> is the full signed, attributed ledger of a board: every stage transition and who approved it, as Markdown or JSON. &nbsp;·&nbsp; 14-day refund, no questions. &nbsp;·&nbsp; Prices in USD; checkout, invoicing, and worldwide sales tax / VAT handled by <a href="https://lemonsqueezy.com" rel="noopener">Lemon Squeezy</a>, our merchant of record. &nbsp;·&nbsp; Not ready? <a href="#launch-final">Join the launch list</a>.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Questions</span>
+      <h2>What Daikonbun is — and isn't.</h2>
+    </div>
+    <div class="faq reveal">
+      <details open><summary>What is Daikonbun?</summary><div class="a">A self-hosted workspace where your AI coding agents work under review. Your own agent drives the board over MCP, refining, planning, and building, and every task passes an independent review gate before it merges, with a signed record of exactly how it was done. Daikonbun holds no model keys; your agent does the work on your own subscription.</div></details>
+      <details><summary>How do my agents know how to operate it?</summary><div class="a">It speaks <span class="mono">MCP</span>. Point any MCP client (Claude Code, Cursor, or your own) at the board, and on connect the server tells it the whole workflow: the stages, the gates, and how to move a card. There's no plugin to write and no prompt to craft; your agent knows how to run the board out of the box.</div></details>
+      <details><summary>Why not just my agent + GitHub PR review?</summary><div class="a">If a human reads every pull request, GitHub is enough. Daikonbun is for when your agents open more changes than anyone actually reviews. It makes review structural and agent-aware: an independent gate on every task the server won't let a card skip, and a record of which agent did what, not just "a human approved a PR." GitHub is your process until agents outrun hand-review; that's the line this is built for.</div></details>
+      <details><summary>Does it run the agents? Do I pay per token?</summary><div class="a">No. You bring your own agent (Claude Code, Cursor, or your own) and it drives the board on your subscription. Daikonbun holds no model credentials and makes no model calls, so there's nothing to meter and no key to hand over.</div></details>
+      <details><summary>Isn't this just a kanban board?</summary><div class="a">A board tracks work. Daikonbun governs it: a review gate on every task, enforced by the server, and a signed record of how the work was done. The columns aren't the product; the review and the record are.</div></details>
+      <details><summary>Is it really self-hosted?</summary><div class="a">Yes. One <span class="mono">docker compose up</span> runs the board and its database on your own machine. Your data, your API keys, your infrastructure. A hosted option may come later, but self-host is the primary product.</div></details>
+      <details><summary>Which AI models does it use?</summary><div class="a">It's provider-agnostic. Each agent role maps to a model through a routing table you control, so you bring your own LLM and route stronger models to planning and review, cheaper ones to mechanical steps.</div></details>
+      <details><summary>Is my data private?</summary><div class="a">Because Daikonbun is self-hosted, your tasks, credentials, and work records stay on your machine. Credentials are encrypted at rest and never returned in plaintext by any API.</div></details>
+      <details><summary>Is it available yet, and is it free?</summary><div class="a">Daikonbun is in <b>beta</b>: working software, pre-1.0. Join early access to self-host it as access opens up. It's free for noncommercial self-host, with a per-seat commercial license for paid use.</div></details>
+      <details><summary>Wait — why "Daikonbun"?</summary><div class="a">Say it fast: <i>daikon-bun</i>. Yes — <b>die, kanban</b>. But the joke was never that we built a prettier board. Agents made "track the work" the easy part; the hard part is trusting what they shipped. So Daikonbun isn't a better board. It's the review and the record around your agents' work.</div></details>
+    </div>
+  </div>
+</section>
+
+<section id="launch-final">
+  <div class="wrap">
+    <div class="final reveal">
+      <div class="tag">In beta · early access</div>
+      <h2>Be first through the gate.</h2>
+      <p style="color:var(--muted);max-width:46ch;margin:1rem auto 0">Daikonbun is in beta, pre-1.0 but working software. One email gets you early self-host access as we open it up, plus the docs and the day-one release.</p>
+      <div class="signup">
+        <form data-newsletter novalidate>
+          <input type="email" name="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address">
+          <button class="btn" type="submit">Get early access</button>
+        </form>
+        <p class="msg" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap row">
+    <a class="brand" href="/"><span class="dot"></span>Daikonbun</a>
+    <span class="mono">Where your AI agents work under review.</span>
+    <span class="mono">© 2026 · Beta · <span title="daikon-bun">die, kanban</span></span>
+  </div>
+</footer>
+
+<script>
+// Newsletter wiring.
+// Set NEWSLETTER_ENDPOINT to your list provider's form endpoint before deploy, e.g.:
+//   Buttondown: https://buttondown.email/api/emails/embed-subscribe/daikonbun
+//   ConvertKit:  https://app.convertkit.com/forms/XXboth/subscriptions
+//   Formspree:   https://formspree.io/f/XXXXXXXX
+const NEWSLETTER_ENDPOINT = "https://buttondown.com/api/emails/embed-subscribe/daikonbun";
+
+document.querySelectorAll('form[data-newsletter]').forEach(function(form){
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    var input = form.querySelector('input[type=email]');
+    var msg = form.parentElement.querySelector('.msg');
+    var email = (input.value||'').trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ setMsg(msg,'Enter a valid email address.','err'); return; }
+    if(!NEWSLETTER_ENDPOINT){ setMsg(msg,'You’re on the list. Connect your provider to store it live.','ok'); form.reset(); return; }
+    setMsg(msg,'Adding you…','');
+    try{
+      var body = new FormData(); body.append('email', email);
+      await fetch(NEWSLETTER_ENDPOINT,{method:'POST',body:body,mode:'no-cors'});
+      setMsg(msg,'You’re in. Watch for the launch email.','ok'); form.reset();
+    }catch(err){ setMsg(msg,'Something went wrong, try again in a moment.','err'); }
+  });
+});
+function setMsg(el,text,cls){ if(!el)return; el.textContent=text; el.className='msg '+(cls||''); }
+
+// Scroll reveals
+if(!window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+  var io=new IntersectionObserver(function(entries){entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+}else{ document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');}); }
+</script>
+<!-- Lemon Squeezy overlay checkout. Harmless until a buy link uses class "lemonsqueezy-button" + an LS ?embed=1 URL. -->
+<script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
+</body>
+</html>
